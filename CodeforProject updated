@@ -11,7 +11,7 @@ library(readxl)
 
 
 # If it is a CSV file, use read_csv:
-df <- read_csv("CPIForecast)
+df <- read_csv("CPIHistoricalForecast")
 
 # ------------------------------------------------------------
  Inspect data structure
