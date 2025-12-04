@@ -8,15 +8,17 @@ library(readxl)
 
 view(CPIHistoricalForecast)
 
-cpi_tidy <- CPIHistoricalForecast %>%        # Tidying the datset to show Consumer Price Index Item (without row names "All food", "Food away from home", "Other foods", and "food at home"), Year of Forecast, and Forecast Percent Change
+
+cpi_tidy <- CPIHistoricalForecast %>%  # Tidying the datset to show Consumer Price Index Item (only showing "Meats", "Fruits and vegetables", and "Dairy products"), Year of Forecast, and Forecast Percent Change
   clean_names() %>% 
+  # use only mid-point forecasts
   filter(attribute == "Mid point of prediction interval") %>% 
+  # keep only the desired CPI items
   filter(
-    !consumer_price_index_item %in% c(
-      "All food",
-      "Food away from home",
-      "Other foods",
-      "Food at home"
+    consumer_price_index_item %in% c(
+      "Meats",
+      "Fruits and vegetables",
+      "Dairy products"
     )
   ) %>%
   select(
@@ -25,53 +27,48 @@ cpi_tidy <- CPIHistoricalForecast %>%        # Tidying the datset to show Consum
     forecast_percent_change
   )
 
+
 cpi_tidy # Viewing tidied dataset
 
 
 
 # Now making data visualizations
 
-df_long <- df %>%
-  pivot_longer(
-    cols = -Year,
-    names_to = "Category",
-    values_to = "Price_Index"
-    )
-
-# ------------------------------------------------------------
- Plot price trends over time
-# ------------------------------------------------------------
-ggplot(df_long, aes(x = Year, y = Price_Index, color = Category)) +
-  geom_line(size = 1.2) +
+cpi_tidy %>%
+  filter(consumer_price_index_item == "Meats") %>%     # Line plot representing the Forecast Percent Change for meats from 2004 - 2024
+  ggplot(aes(x = year_of_forecast,
+             y = forecast_percent_change)) +
+  geom_line(color = "blue", linewidth = 0.6) +
   labs(
-    title = "USDA Food Price Trends Over Time",
+    title = "USDA Forecasted CPI Percent Change: Meats",
     x = "Year",
-    y = "Price Index (CPI)",
-    color = "Food Category"
+    y = "Forecast Percent Change (%)"
   ) +
-  theme_minimal(base_size = 14)
+  theme_minimal()
 
-# ------------------------------------------------------------
-Calculate Annual Percent Increase for Each Category
-# ------------------------------------------------------------
 
-df_pct <- df_long %>%
-  group_by(Category) %>%
-  arrange(Year) %>%
-  mutate(Pct_Change = (Price_Index - lag(Price_Index)) / lag(Price_Index) * 100)
-
-# Print last few results:
-tail(df_pct)
-
-# ------------------------------------------------------------
-Plot annual percent increase
-# ------------------------------------------------------------
-ggplot(df_pct, aes(x = Year, y = Pct_Change, color = Category)) +
-  geom_line(size = 1.1) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
+cpi_tidy %>%
+  filter(consumer_price_index_item == "Fruits and vegetables") %>%     # Line plot representing the Forecast Percent Change for fruits and vegetables from 2004 - 2024
+  ggplot(aes(x = year_of_forecast,
+             y = forecast_percent_change)) +
+  geom_line(color = "blue", linewidth = 0.6) +
   labs(
-    title = "Annual Percent Change in U.S. Food Prices",
+    title = "USDA Forecasted CPI Percent Change: Fruits and vegetables",
     x = "Year",
-    y = "Percent Change (%)"
+    y = "Forecast Percent Change (%)"
   ) +
-  theme_minimal(base_size = 14)
+  theme_minimal()
+
+cpi_tidy %>%
+  filter(consumer_price_index_item == "Dairy products") %>%    
+  ggplot(aes(x = year_of_forecast,
+             y = forecast_percent_change)) +
+  geom_line(color = "blue", linewidth = 0.6) +
+  labs(
+    title = "USDA Forecasted CPI Percent Change: Dairy Products",
+    x = "Year",
+    y = "Forecast Percent Change (%)"
+  ) +
+  theme_minimal()
+
+
