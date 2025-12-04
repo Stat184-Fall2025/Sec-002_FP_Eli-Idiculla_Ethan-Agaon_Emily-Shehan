@@ -6,25 +6,30 @@ library(tidyr)
 library(lubridate)
 library(readxl)
 
+view(CPIHistoricalForecast)
 
-#  Load the USDA Food Price Outlook Dataset
+cpi_tidy <- CPIHistoricalForecast %>%        # Tidying the datset to show Consumer Price Index Item (without row names "All food", "Food away from home", "Other foods", and "food at home"), Year of Forecast, and Forecast Percent Change
+  clean_names() %>% 
+  filter(attribute == "Mid point of prediction interval") %>% 
+  filter(
+    !consumer_price_index_item %in% c(
+      "All food",
+      "Food away from home",
+      "Other foods",
+      "Food at home"
+    )
+  ) %>%
+  select(
+    consumer_price_index_item,
+    year_of_forecast,
+    forecast_percent_change
+  )
+
+cpi_tidy # Viewing tidied dataset
 
 
-# If it is a CSV file, use read_csv:
-df <- read_csv("CPIHistoricalForecast")
 
-# ------------------------------------------------------------
- Inspect data structure
-# ------------------------------------------------------------
-glimpse(df)
-
-# Many USDA datasets have separate columns for food categories
-# plus a "Year" column. Let's assume structure like:
-# Year | Food | Food-at-Home | Food-away-from-Home | Meats | Dairy | ...
-
-# ------------------------------------------------------------
- Turn data into long format for easier plotting
-# ------------------------------------------------------------
+# Now making data visualizations
 
 df_long <- df %>%
   pivot_longer(
