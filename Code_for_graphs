@@ -71,3 +71,22 @@ ggplot(cpi_tidy, aes(x = consumer_price_index_item,
 
 # --- 3rd Graph: Dotplot Representing Year Being Forecast vs. Mean Forecast Percent Change for each CPI Item ---- # 
 
+cpi_mean <- cpi_tidy %>%
+  group_by(consumer_price_index_item, year_being_forecast) %>%
+  summarise(
+    mean_forecast_percent_change = mean(forecast_percent_change, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+ggplot(cpi_mean,
+       aes(x = year_being_forecast,
+           y = mean_forecast_percent_change,
+           color = consumer_price_index_item)) +
+  geom_point(size = 3) +
+  labs(
+    title = "Mean Forecasted CPI Percent Change by Item and Year",
+    x = "Year Being Forecast",
+    y = "Mean Forecast Percent Change",
+    color = "CPI Item"
+  ) +
+  theme_minimal()
