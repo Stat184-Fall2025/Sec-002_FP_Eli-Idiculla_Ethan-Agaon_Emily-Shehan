@@ -1,3 +1,6 @@
+# ---- View Raw Data ----
+view(CPIHistoricalForecast)
+
 # ---- Load Packages ----
 library(readr)
 library(dplyr)
@@ -5,8 +8,7 @@ library(ggplot2)
 library(tidyr)
 library(lubridate)
 library(readxl)
-
-view(CPIHistoricalForecast)
+library(janitor)
 
 
 cpi_tidy <- CPIHistoricalForecast %>%  # Tidying the datset to show Consumer Price Index Item (only showing "Meats", "Fruits and vegetables", and "Dairy products"), Year of Forecast, and Forecast Percent Change
@@ -24,6 +26,7 @@ cpi_tidy <- CPIHistoricalForecast %>%  # Tidying the datset to show Consumer Pri
   select(
     consumer_price_index_item,
     year_of_forecast,
+    year_being_forecast,
     forecast_percent_change
   )
 
