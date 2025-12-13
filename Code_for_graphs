@@ -1,0 +1,65 @@
+# ---- Year being forecast vs. Forecast Precentage change ---- #
+
+ggplot(
+     cpi_tidy %>% filter(consumer_price_index_item == "Meats"),
+     aes(x = year_being_forecast,
+         y = forecast_percent_change)
+ ) +
+     geom_line(color = "firebrick", linewidth = 1) +
+     geom_point(color = "firebrick", size = 2) +
+     scale_x_continuous(breaks = seq(
+         min(cpi_tidy$year_being_forecast),
+         max(cpi_tidy$year_being_forecast),
+         by = 5
+     )) +
+     labs(
+         title = "Forecasted CPI Percent Change for Meats",
+         x = "Year Being Forecast",
+         y = "Forecast Percent Change"
+     ) +
+     theme_minimal()
+
+ggplot(
+     cpi_tidy %>% filter(consumer_price_index_item == "Fruits and vegetables"),
+     aes(x = year_being_forecast,
+         y = forecast_percent_change)
+ ) +
+     geom_line(color = "darkgreen", linewidth = 1) +
+     geom_point(color = "darkgreen", size = 2) +
+     scale_x_continuous(breaks = seq(
+         min(cpi_tidy$year_being_forecast),
+         max(cpi_tidy$year_being_forecast),
+         by = 5
+     )) +
+     labs(
+         title = "Forecasted CPI Percent Change for Fruits and Vegetables",
+         x = "Year Being Forecast",
+         y = "Forecast Percent Change"
+     ) +
+     theme_minimal()
+
+ggplot(
+     cpi_tidy %>% filter(consumer_price_index_item == "Dairy products"),
+     aes(x = year_being_forecast,
+         y = forecast_percent_change)
+ ) +
+     geom_line(color = "steelblue", linewidth = 1) +
+     geom_point(color = "steelblue", size = 2) +
+     scale_x_continuous(breaks = seq(
+         min(cpi_tidy$year_being_forecast),
+         max(cpi_tidy$year_being_forecast),
+         by = 5
+     )) +
+     labs(
+         title = "Forecasted CPI Percent Change for Dairy Products",
+         x = "Year Being Forecast",
+         y = "Forecast Percent Change"
+     ) +
+     theme_minimal()
+
+# ---- Comparing CPI categories directly ---- #
+
+ggplot(cpi_tidy, aes(x = consumer_price_index_item,
+                      y = forecast_percent_change,
+                      fill = consumer_price_index_item)) +
+     geom_boxplot()
