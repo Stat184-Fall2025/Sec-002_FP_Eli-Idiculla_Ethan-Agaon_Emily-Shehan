@@ -1,0 +1,520 @@
+---
+echo: false
+title: "Evaluation of CPI Predictions for Meats, Dairy Products, and Fruits and Vegetables from 2004 - 2025"
+format: html
+editor: visual
+---
+
+# Introduction:
+
+Our group set out to examine how the Consumer Price Index (CPI) for commonly purchased household foods has changed over the past 20 years and how forecasted trends help explain shifts in food prices over time. To conduct this analysis, we used CPI forecast data published by the United States Department of Agriculture (USDA), which regularly produces inflation forecasts for various food categories as part of its economic research and outlook reports.
+
+These forecasts are widely relied upon by economists, policymakers, and researchers to assess future inflationary pressures in food markets, making them especially valuable for understanding long-term pricing trends. The data set includes key attributes such as CPI item categories, forecast years, and projected percentage changes. To represent a single, central estimate for each forecast, we used the mean forecasted percentage change, which allowed for a clear and consistent comparison across food categories and years.
+
+Because the USDA is a reputable federal agency that follows standardized data collection and reporting practices, this data set can be considered both reliable and authoritative for examining changes in food prices and their broader economic implications.
+
+# Exploratory Data Analysis:
+
+#### Data Provenance:
+
+The data set used in this analysis, CPI Historical Forecast, originates from the United States Department of Agriculture - USDA. The USDA regularly publishes CPI forecasts for various food categories as part of its economic research and outlook reports. These forecasts are widely used by policymakers, economists, and researchers to anticipate inflationary pressures in food markets. The data includes multiple forecast attributes, such as year of forecast and year being forecast. Year of forecast is the year the predicted CPI percent change was created, and year being forecast is when they predict the change to occur. Since the USDA is a reputable federal agency that follows standardized data collection, the data are considered authoritative, reliable, and suitable for economic analysis.
+
+#### FAIR and CARE Principles: The dataset largely satisfies the FAIR principles:
+
+1)  Findable: This dataset is publicly available through USDA publications and online repositories, with clear titles and documentation.
+
+2)  Accessible: This dataset can be downloaded without restrictions and read using standard tools (ex: R or Excel).
+
+3)  Interoperable: This dataset is provided in structured tabular formats that integrate easily with common data analysis software and libraries.
+
+4)  Reusable: This dataset has clear definitions of the variables, consistent formatting, and public licensing allows the data to be reused for multiple analytical purposes.
+
+Overall, this dataset strongly adheres to the FAIR principles, making it suitable for transparent and reproducible research, and a trustworthy data set for our project.
+
+However, the CARE principles - Collective Benefit, Authority to Control, Responsibility, and Ethics - are not as applicable to the context of this data set. This data set does not involve indigenous data or personally identifiable information, and therefore issues surrounding the idea of community authority or consent are minimal. However, this data set does support collective benefit as the data set supports public understanding of inflation and food prices, benefiting society broadly. Additionally, the data set supports responsibility and ethics as the USDA adheres to ethical standards in data reporting and dissemination. While CARE principles are not central to this dataset, the data are used responsibly and ethically in a public-interest context.
+
+#### Attributes: The original attributes from the data set include:
+
+1)  Consumer Price Index Item which identifies the CPI category for the given items in the data set.
+
+2)  Year of Forecast: This is the year in which the forecast was made.
+
+3)  Year Being Forecast: This is the year for which the CPI percent change is being predicted to be in.
+
+4)  Forecast Percent Change: This is the predicted percent change in CPI for the specified category and year.
+
+For our analysis, and due to the magnitude of possible items within the CPI Index Item feature, we will focus on the items meats, dairy, and fruits and vegetables and their associated forecast percent change. For our project, we will create 3 data visualizations and 3 tables to showcase how the USDA predicts the CPI to change for each of these 3 CPI Items. To do this we will evaluate a few things:
+
+1)  We will create graphs to illustrate how the predicted forecast percent change will fluctuate for each CPI item from 2004-2025.
+
+2)  We will create a box and whisker plot for each CPI Item to evaluate the 5 descriptive statistics (Minimum, Q1, Median, Q3, Maximum)
+
+3)  Finally, we will create a scatterplot to plot the mean forecast percent change for each of the CPI items.
+
+To support our graphs, we will partner them with a data table to help us analyze and come to a conclusion based on what each visualization is telling us.
+
+# Visual Analysis:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(lubridate)
+library(readxl)
+library(janitor)
+library(knitr)
+
+```
+
+```{r}
+#| echo: false
+CPIHistoricalForecast <- read.csv("CPIHistoricalForecast.csv")
+
+
+```
+
+### Figure 1:
+
+```{r}
+#| echo: false
+#| fig-alt: "This table..."
+
+cpi_tidy <- CPIHistoricalForecast %>%  # Tidying the datset to show Consumer Price Index Item (only showing "Meats", "Fruits and vegetables", and "Dairy products"), Year of Forecast, and Forecast Percent Change
+  clean_names() %>% 
+  # use only mid-point forecasts
+  filter(attribute == "Mid point of prediction interval") %>% 
+  # keep only the desired CPI items
+  filter(
+    consumer_price_index_item %in% c(
+      "Meats",
+      "Fruits and vegetables",
+      "Dairy products"
+    )
+  ) %>%
+  select(
+    consumer_price_index_item,
+    year_of_forecast,
+    year_being_forecast,
+    forecast_percent_change
+  )
+
+
+kable(cpi_tidy[1:50,],caption = "Year vs Forecast Percent Change for Each CPI Item") # Viewing tidied dataset
+```
+#### Figure 1 Analysis:
+
+
+### Figure 2:
+```{r}
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5
+#| fig-alt: "These line graphs..."
+ggplot(
+     cpi_tidy %>% filter(consumer_price_index_item == "Meats"),
+     aes(x = year_being_forecast,
+         y = forecast_percent_change)
+ ) +
+     geom_line(color = "red", linewidth = 1) +
+     geom_point(color = "red", size = 2) +
+     scale_x_continuous(breaks = seq(
+         min(cpi_tidy$year_being_forecast),
+         max(cpi_tidy$year_being_forecast),
+         by = 5
+     )) +
+     labs(
+         title = "Forecasted CPI Percent Change for Meats",
+         x = "Year Being Forecast",
+         y = "Forecast Percent Change"
+     ) +
+     theme_minimal()
+
+ggplot(
+     cpi_tidy %>% filter(consumer_price_index_item == "Fruits and vegetables"),
+     aes(x = year_being_forecast,
+         y = forecast_percent_change)
+ ) +
+     geom_line(color = "green", linewidth = 1) +
+     geom_point(color = "green", size = 2) +
+     scale_x_continuous(breaks = seq(
+         min(cpi_tidy$year_being_forecast),
+         max(cpi_tidy$year_being_forecast),
+         by = 5
+     )) +
+     labs(
+         title = "Forecasted CPI Percent Change for Fruits and Vegetables",
+         x = "Year Being Forecast",
+         y = "Forecast Percent Change"
+     ) +
+     theme_minimal()
+
+ggplot(
+     cpi_tidy %>% filter(consumer_price_index_item == "Dairy products"),
+     aes(x = year_being_forecast,
+         y = forecast_percent_change)
+ ) +
+     geom_line(color = "blue", linewidth = 1) +
+     geom_point(color = "blue", size = 2) +
+     scale_x_continuous(breaks = seq(
+         min(cpi_tidy$year_being_forecast),
+         max(cpi_tidy$year_being_forecast),
+         by = 5
+     )) +
+     labs(
+         title = "Forecasted CPI Percent Change for Dairy Products",
+         x = "Year Being Forecast",
+         y = "Forecast Percent Change"
+     ) +
+     theme_minimal()
+```
+#### Figure 2 Analysis:
+
+
+
+### Figure 3:
+```{r}
+#| echo: false
+#| fig-alt: "This table..."
+cpi_summary <- cpi_tidy %>%
+  group_by(consumer_price_index_item, year_being_forecast) %>%
+  summarise(
+    mean_forecast_pct_change = mean(forecast_percent_change, na.rm = TRUE),
+    sd_forecast_pct_change   = sd(forecast_percent_change, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+kable(cpi_summary,
+      caption = "Mean and Standard Deviation of CPI Forecasted Percent Change by Food Category and Year")
+
+```
+#### Figure 3 Analysis:
+
+
+
+### Figure 4:
+```{r}
+#| echo: false
+#| fig-alt: "This table..."
+cpi_range_table <- cpi_tidy %>%
+  group_by(consumer_price_index_item) %>%
+  summarise(
+    min_forecast_pct_change = min(forecast_percent_change, na.rm = TRUE),
+    max_forecast_pct_change = max(forecast_percent_change, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+kable(
+  cpi_range_table,
+  digits = 2,
+  caption = "Range of Mid-Point CPI Forecasted Percent Change by Food Category"
+)
+```
+#### Figure 4 Analysis:
+
+
+### Figure 5:
+```{r}
+#| echo: false
+#| fig-alt: "This box and whisker plot..."
+ggplot(cpi_tidy, aes(x = consumer_price_index_item,
+                      y = forecast_percent_change,
+                      fill = consumer_price_index_item)) +
+     geom_boxplot()
+```
+#### Figure 5 Analysis:
+
+
+### Figure 6:
+```{r}
+#| echo: false
+#| fig-alt: "This scatterplot..."
+cpi_mean <- cpi_tidy %>%
+  group_by(consumer_price_index_item, year_being_forecast) %>%
+  summarise(
+    mean_forecast_percent_change = mean(forecast_percent_change, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+ggplot(cpi_mean,
+       aes(x = year_being_forecast,
+           y = mean_forecast_percent_change,
+           color = consumer_price_index_item)) +
+  geom_point(size = 3) +
+  labs(
+    title = "Mean Forecasted CPI Percent Change by Item and Year",
+    x = "Year Being Forecast",
+    y = "Mean Forecast Percent Change",
+    color = "CPI Item"
+  ) +
+  theme_minimal()
+```
+#### Figure 6 Analysis:
+
+
+# Conclusion:
+In conclusion...
+
+
+
+
+#
+# Code Appendix
+
+```{r}
+#| echo: true
+#| results: hide
+#| fig.show: hide
+#| message: false
+#| warning: false
+#| 
+# ------------------------------------------------------------
+# Code Header
+# Primary Author: Emily Shehan
+# Reviewer: Eli Idiculla
+# ------------------------------------------------------------
+
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(lubridate)
+library(readxl)
+library(janitor)
+library(knitr)
+
+```
+
+```{r}
+#| echo: true
+#| results: hide
+#| fig.show: hide
+#| message: false
+#| warning: false
+
+# ------------------------------------------------------------
+# Code Header
+# Primary Author: Emily Shehan
+# Reviewer: Eli Idiculla
+# ------------------------------------------------------------
+
+CPIHistoricalForecast <- read.csv("CPIHistoricalForecast.csv")
+
+
+```
+
+```{r}
+#| echo: true
+#| results: hide
+#| fig.show: hide
+#| message: false
+#| warning: false
+#| 
+# ------------------------------------------------------------
+# Code Header
+# Primary Author: Eli Idiculla
+# Reviewer: Ethan Agaon
+# ------------------------------------------------------------
+
+cpi_tidy <- CPIHistoricalForecast %>%  # Tidying the datset to show Consumer Price Index Item (only showing "Meats", "Fruits and vegetables", and "Dairy products"), Year of Forecast, and Forecast Percent Change
+  clean_names() %>% 
+  # use only mid-point forecasts
+  filter(attribute == "Mid point of prediction interval") %>% 
+  # keep only the desired CPI items
+  filter(
+    consumer_price_index_item %in% c(
+      "Meats",
+      "Fruits and vegetables",
+      "Dairy products"
+    )
+  ) %>%
+  select(
+    consumer_price_index_item,
+    year_of_forecast,
+    year_being_forecast,
+    forecast_percent_change
+  )
+
+
+kable(cpi_tidy[1:50,],caption = "Year vs Forecast Percent Change for Each CPI Item") # Viewing tidied dataset
+```
+
+```{r}
+#| echo: true
+#| results: hide
+#| fig.show: hide
+#| message: false
+#| warning: false
+
+# ------------------------------------------------------------
+# Code Header
+# Primary Author: Eli Idiculla
+# Reviewer: Ethan Agaon
+# ------------------------------------------------------------
+ggplot(
+     cpi_tidy %>% filter(consumer_price_index_item == "Meats"),
+     aes(x = year_being_forecast,
+         y = forecast_percent_change)
+ ) +
+     geom_line(color = "red", linewidth = 1) +
+     geom_point(color = "red", size = 2) +
+     scale_x_continuous(breaks = seq(
+         min(cpi_tidy$year_being_forecast),
+         max(cpi_tidy$year_being_forecast),
+         by = 5
+     )) +
+     labs(
+         title = "Forecasted CPI Percent Change for Meats",
+         x = "Year Being Forecast",
+         y = "Forecast Percent Change"
+     ) +
+     theme_minimal()
+
+ggplot(
+     cpi_tidy %>% filter(consumer_price_index_item == "Fruits and vegetables"),
+     aes(x = year_being_forecast,
+         y = forecast_percent_change)
+ ) +
+     geom_line(color = "green", linewidth = 1) +
+     geom_point(color = "green", size = 2) +
+     scale_x_continuous(breaks = seq(
+         min(cpi_tidy$year_being_forecast),
+         max(cpi_tidy$year_being_forecast),
+         by = 5
+     )) +
+     labs(
+         title = "Forecasted CPI Percent Change for Fruits and Vegetables",
+         x = "Year Being Forecast",
+         y = "Forecast Percent Change"
+     ) +
+     theme_minimal()
+
+ggplot(
+     cpi_tidy %>% filter(consumer_price_index_item == "Dairy products"),
+     aes(x = year_being_forecast,
+         y = forecast_percent_change)
+ ) +
+     geom_line(color = "blue", linewidth = 1) +
+     geom_point(color = "blue", size = 2) +
+     scale_x_continuous(breaks = seq(
+         min(cpi_tidy$year_being_forecast),
+         max(cpi_tidy$year_being_forecast),
+         by = 5
+     )) +
+     labs(
+         title = "Forecasted CPI Percent Change for Dairy Products",
+         x = "Year Being Forecast",
+         y = "Forecast Percent Change"
+     ) +
+     theme_minimal()
+```
+
+```{r}
+#| echo: true
+#| results: hide
+#| fig.show: hide
+#| message: false
+#| warning: false
+
+# ------------------------------------------------------------
+# Code Header
+# Primary Author: Ethan Agaon
+# Reviewer: Eli Idiculla
+# ------------------------------------------------------------
+
+cpi_summary <- cpi_tidy %>%
+  group_by(consumer_price_index_item, year_being_forecast) %>%
+  summarise(
+    mean_forecast_pct_change = mean(forecast_percent_change, na.rm = TRUE),
+    sd_forecast_pct_change   = sd(forecast_percent_change, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+kable(cpi_summary,
+      caption = "Mean and Standard Deviation of CPI Forecasted Percent Change by Food Category and Year")
+
+```
+
+```{r}
+#| echo: true
+#| results: hide
+#| fig.show: hide
+#| message: false
+#| warning: false
+
+# ------------------------------------------------------------
+# Code Header
+# Primary Author: Eli Idiculla
+# Reviewer: Emily Shehan
+# ------------------------------------------------------------
+
+cpi_range_table <- cpi_tidy %>%
+  group_by(consumer_price_index_item) %>%
+  summarise(
+    min_forecast_pct_change = min(forecast_percent_change, na.rm = TRUE),
+    max_forecast_pct_change = max(forecast_percent_change, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+kable(
+  cpi_range_table,
+  digits = 2,
+  caption = "Range of Mid-Point CPI Forecasted Percent Change by Food Category"
+)
+```
+
+```{r}
+#| echo: true
+#| results: hide
+#| fig.show: hide
+#| message: false
+#| warning: false
+
+# ------------------------------------------------------------
+# Code Header
+# Primary Author: Ethan Agaon
+# Reviewer: Eli Idiculla
+# ------------------------------------------------------------
+
+ggplot(cpi_tidy, aes(x = consumer_price_index_item,
+                      y = forecast_percent_change,
+                      fill = consumer_price_index_item)) +
+     geom_boxplot()
+```
+
+```{r}
+#| echo: true
+#| results: hide
+#| fig.show: hide
+#| message: false
+#| warning: false
+
+# ------------------------------------------------------------
+# Code Header
+# Primary Author: Ethan Agaon
+# Reviewer: Eli Idiculla
+# ------------------------------------------------------------
+
+cpi_mean <- cpi_tidy %>%
+  group_by(consumer_price_index_item, year_being_forecast) %>%
+  summarise(
+    mean_forecast_percent_change = mean(forecast_percent_change, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+ggplot(cpi_mean,
+       aes(x = year_being_forecast,
+           y = mean_forecast_percent_change,
+           color = consumer_price_index_item)) +
+  geom_point(size = 3) +
+  labs(
+    title = "Mean Forecasted CPI Percent Change by Item and Year",
+    x = "Year Being Forecast",
+    y = "Mean Forecast Percent Change",
+    color = "CPI Item"
+  ) +
+  theme_minimal()
+```
