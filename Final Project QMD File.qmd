@@ -105,7 +105,7 @@ cpi_tidy <- CPIHistoricalForecast %>%  # Tidying the datset to show Consumer Pri
 
 kable(cpi_tidy[1:50,],caption = "Year vs Forecast Percent Change for Each CPI Item") # Viewing tidied dataset
 ```
-#### Figure 1 Analysis:
+#### Figure 1 Analysis: Figure 1 shows a data table of Year vs Forecast Percent Change for Each CPI Item. The plot includes attributes such as the consumer price index item which includes foods such as meats, dairy products, and fruits and vegetables, year of forecast, year being forecast, and forecast precent change, which shows how much the predicted value is expected to increase or decrease compared to the starting point.
 
 
 ### Figure 2:
@@ -171,7 +171,7 @@ ggplot(
      ) +
      theme_minimal()
 ```
-#### Figure 2 Analysis:
+#### Figure 2 Analysis: Figure 2 shows the forecasted CPI precent changes for meats, fruits and vegetables and dairy produts. As you can see, there's big spikes for meats around 2004 and 2019, and a spike increase for fruits,vegetables, and dairy prodcuts in 2022. This shows howthe forecasted precent change affected the price of these products over time.
 
 
 
@@ -191,7 +191,7 @@ kable(cpi_summary,
       caption = "Mean and Standard Deviation of CPI Forecasted Percent Change by Food Category and Year")
 
 ```
-#### Figure 3 Analysis:
+#### Figure 3 Analysis: Figure 3 shows the Mean and Standard Deviation of CPI Forecasted Percent Change by Food Category and Year. This data table includes attributes such as consumer price index item which includes products such as meats, fruits and vegetables, and dairy products, year being forecast, mean forecast precentage change, and the standard deviation forecast precentage change. Both the mean and standard deviations shows the fluctuation in forecast precentage change which can affect the price of the products mentioned.
 
 
 
@@ -518,3 +518,4 @@ ggplot(cpi_mean,
   ) +
   theme_minimal()
 ```
+
