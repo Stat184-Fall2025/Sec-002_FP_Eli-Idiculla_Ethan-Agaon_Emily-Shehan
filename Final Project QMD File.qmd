@@ -292,7 +292,7 @@ ggplot(cpi_mean,
 # Conclusion:
 Overall, our analysis shows that food prices have steadily increased over the past 20 years, with inflation affecting household food items in different ways across categories. Using USDA CPI forecast data allowed us to identify consistent long-term trends and better understand how economic forces shape food price changes over time. Because this data comes from a reliable federal source, it provides a strong foundation for interpreting past patterns and anticipating future movement in food prices.
 
-Based on these trends, we predict that CPI for household foods in 2026 will continue to rise, but at a slower and more stable pace than in recent high-inflation years. While food prices are expected to remain elevated, the data suggests inflation will gradually moderate rather than sharply increase.  
+Based on these trends, we predict that CPI for products such as meats, dairy products, and fruits and vegetables in 2026 will continue to rise, but at a slower and more stable pace than in recent high-inflation years. While food prices are expected to remain elevated, the data suggests inflation will gradually moderate rather than sharply increase.  
 
 #
 # Code Appendix
@@ -581,4 +581,5 @@ ggplot(cpi_mean,
   ) +
   theme_minimal()
 ```
+
 
