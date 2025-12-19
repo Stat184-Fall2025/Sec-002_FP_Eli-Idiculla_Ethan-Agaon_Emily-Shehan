@@ -81,7 +81,7 @@ CPIHistoricalForecast <- read.csv("CPIHistoricalForecast.csv")
 
 ```{r}
 #| echo: false
-#| fig-alt: "This table..."
+#| fig-alt: "This table is the tided version of our dataset where one case represents one prediction per food category (Meats, Dairy, Fruits and Vegetables) from 2004-2025."
 
 cpi_tidy <- CPIHistoricalForecast %>%  # Tidying the datset to show Consumer Price Index Item (only showing "Meats", "Fruits and vegetables", and "Dairy products"), Year of Forecast, and Forecast Percent Change
   clean_names() %>% 
@@ -105,16 +105,16 @@ cpi_tidy <- CPIHistoricalForecast %>%  # Tidying the datset to show Consumer Pri
 
 kable(cpi_tidy[1:50,],caption = "Year vs Forecast Percent Change for Each CPI Item") # Viewing tidied dataset
 ```
+
 ##### Figure 1 Analysis: Figure 1 shows a data table of Year vs Forecast Percent Change for Each CPI Item. The plot includes attributes such as the consumer price index item which includes foods such as meats, dairy products, and fruits and vegetables, year of forecast, year being forecast, and forecast precent change, which shows how much the predicted value is expected to increase or decrease compared to the starting point.
 
-
-
 ### Figure 2:
+
 ```{r}
 #| echo: false
 #| fig-width: 8
 #| fig-height: 5
-#| fig-alt: "These line graphs..."
+#| fig-alt: "These line graphs show the forecast percent change for the 3 categories in respect to the year being forecasted from 2004-2025. The explanatory variable is Year Being Forecast and the response variable is Forecast Percent Change."
 ggplot(
      cpi_tidy %>% filter(consumer_price_index_item == "Meats"),
      aes(x = year_being_forecast,
@@ -204,15 +204,14 @@ ggplot(
   theme_minimal()
 
 ```
+
 ##### Figure 2 Analysis: Figure 2 shows the forecasted CPI precent changes for meats, fruits and vegetables and dairy produts. As you can see, there's big spikes for meats around 2004 and 2019, and a spike increase for fruits,vegetables, and dairy prodcuts in 2022. This shows how the forecasted precent change affected the price of these products over time.
 
-
-
-
 ### Figure 3:
+
 ```{r}
 #| echo: false
-#| fig-alt: "This table..."
+#| fig-alt: "This table shows the 3 categories, the year being forecasted, the mean, and the standard deviation for each category from 2004-2024."
 cpi_summary <- cpi_tidy %>%
   group_by(consumer_price_index_item, year_being_forecast) %>%
   summarise(
@@ -221,18 +220,18 @@ cpi_summary <- cpi_tidy %>%
     .groups = "drop"
   )
 
-kable(cpi_summary,
+kable(cpi_summary[1:20,],
       caption = "Mean and Standard Deviation of CPI Forecasted Percent Change by Food Category and Year")
 
 ```
+
 ##### Figure 3 Analysis: Figure 3 shows the Mean and Standard Deviation of CPI Forecasted Percent Change by Food Category and Year. This data table includes attributes such as consumer price index item which includes products such as meats, fruits and vegetables, and dairy products, year being forecast, mean forecast precentage change, and the standard deviation forecast precentage change. Both the mean and standard deviations shows the fluctuation in forecast precentage change which can affect the price of the products mentioned.
 
-
-
 ### Figure 4:
+
 ```{r}
 #| echo: false
-#| fig-alt: "This table..."
+#| fig-alt: "This table shows the minimum and maximum forecast percent change for each of the 3 categories."
 cpi_range_table <- cpi_tidy %>%
   group_by(consumer_price_index_item) %>%
   summarise(
@@ -247,25 +246,27 @@ kable(
   caption = "Range of Mid-Point CPI Forecasted Percent Change by Food Category"
 )
 ```
+
 #### Figure 4 Analysis:
 
-
 ### Figure 5:
+
 ```{r}
 #| echo: false
-#| fig-alt: "This box and whisker plot..."
+#| fig-alt: "This box and whisker plot shows the 5 number summary for the forecast percent change for each 3 categories."
 ggplot(cpi_tidy, aes(x = consumer_price_index_item,
                       y = forecast_percent_change,
                       fill = consumer_price_index_item)) +
      geom_boxplot()
 ```
+
 #### Figure 5 Analysis:
 
-
 ### Figure 6:
+
 ```{r}
 #| echo: false
-#| fig-alt: "This scatterplot..."
+#| fig-alt: "This scatterplot shows the mean forecast percent change for each of the 3 caegories from the year 2004-2005. The explanatory variable is Year Being Forecast and the response variable is Mean Forecast Percent Change."
 cpi_mean <- cpi_tidy %>%
   group_by(consumer_price_index_item, year_being_forecast) %>%
   summarise(
@@ -286,15 +287,16 @@ ggplot(cpi_mean,
   ) +
   theme_minimal()
 ```
+
 #### Figure 6 Analysis:
 
-
 # Conclusion:
+
 Overall, our analysis shows that food prices have steadily increased over the past 20 years, with inflation affecting household food items in different ways across categories. Using USDA CPI forecast data allowed us to identify consistent long-term trends and better understand how economic forces shape food price changes over time. Because this data comes from a reliable federal source, it provides a strong foundation for interpreting past patterns and anticipating future movement in food prices.
 
-Based on these trends, we predict that CPI for products such as meats, dairy products, and fruits and vegetables in 2026 will continue to rise, but at a slower and more stable pace than in recent high-inflation years. While food prices are expected to remain elevated, the data suggests inflation will gradually moderate rather than sharply increase.  
+Based on these trends, we predict that CPI for products such as meats, dairy products, and fruits and vegetables in 2026 will continue to rise, but at a slower and more stable pace than in recent high-inflation years. While food prices are expected to remain elevated, the data suggests inflation will gradually moderate rather than sharply increase.
 
-#
+
 # Code Appendix
 
 ```{r}
@@ -581,5 +583,3 @@ ggplot(cpi_mean,
   ) +
   theme_minimal()
 ```
-
-
