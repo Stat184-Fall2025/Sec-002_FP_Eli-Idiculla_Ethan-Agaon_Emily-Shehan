@@ -1,4 +1,5 @@
 **Introduction:**
+
 Our group set out to examine how the Consumer Price Index (CPI) for commonly purchased household foods has changed over the past 20 years and how forecasted trends help explain shifts in food prices over time. To conduct this analysis, we used CPI forecast data published by the United States Department of Agriculture (USDA), which regularly produces inflation forecasts for various food categories as part of its economic research and outlook reports.
 
 These forecasts are widely relied upon by economists, policymakers, and researchers to assess future inflationary pressures in food markets, making them especially valuable for understanding long-term pricing trends. The data set includes key attributes such as CPI item categories, forecast years, and projected percentage changes. To represent a single, central estimate for each forecast, we used the mean forecasted percentage change, which allowed for a clear and consistent comparison across food categories and years.
