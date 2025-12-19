@@ -1,0 +1,17 @@
+[
+  {
+    "id": "usda-cpi-forecast",
+    "type": "dataset",
+    "author": [
+      {
+        "literal": "United States Department of Agriculture"
+      }
+    ],
+    "title": "Historical Consumer Price Index (CPI) Forecast Series",
+    "issued": {
+      "date-parts": [[2025]]
+    },
+    "publisher": "USDA Economic Research Service",
+    "URL": "https://www.ers.usda.gov"
+  }
+]
