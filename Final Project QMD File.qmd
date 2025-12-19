@@ -15,9 +15,15 @@ Because the USDA is a reputable federal agency that follows standardized data co
 
 # Exploratory Data Analysis:
 
+#### Research Question
+
+How have USDA forecasted CPI percent changes for meats, dairy products, and fruits and vegetables differed over time, and what do these forecasts reveal about relative price stability and volatility across food categories?
+
 #### Data Provenance:
 
 The data set used in this analysis, CPI Historical Forecast, originates from the United States Department of Agriculture - USDA. The USDA regularly publishes CPI forecasts for various food categories as part of its economic research and outlook reports. These forecasts are widely used by policymakers, economists, and researchers to anticipate inflationary pressures in food markets. The data includes multiple forecast attributes, such as year of forecast and year being forecast. Year of forecast is the year the predicted CPI percent change was created, and year being forecast is when they predict the change to occur. Since the USDA is a reputable federal agency that follows standardized data collection, the data are considered authoritative, reliable, and suitable for economic analysis.
+
+This dataset is particularly well-suited for addressing our research question: how do USDA forecasted CPI percent changes differ across meats, dairy products, and fruits and vegetables, and what do these differences reveal about relative price stability and volatility over time?
 
 #### FAIR and CARE Principles: The dataset largely satisfies the FAIR principles:
 
@@ -43,15 +49,23 @@ However, the CARE principles - Collective Benefit, Authority to Control, Respons
 
 4)  Forecast Percent Change: This is the predicted percent change in CPI for the specified category and year.
 
-For our analysis, and due to the magnitude of possible items within the CPI Index Item feature, we will focus on the items meats, dairy, and fruits and vegetables and their associated forecast percent change. For our project, we will create 3 data visualizations and 3 tables to showcase how the USDA predicts the CPI to change for each of these 3 CPI Items. To do this we will evaluate a few things:
+Distinguishing between the year of forecast and the year being forecast is critical for interpreting trends, as it allows us to evaluate how expectations of price changes evolve over time.
 
-1)  We will create graphs to illustrate how the predicted forecast percent change will fluctuate for each CPI item from 2004-2025.
+#### EDA Focus and Analytical Approach:
 
-2)  We will create a box and whisker plot for each CPI Item to evaluate the 5 descriptive statistics (Minimum, Q1, Median, Q3, Maximum)
+For our analysis, and due to the magnitude of possible items within the Consumer Price Index Item attribute, we focus on the categories meats, dairy products, and fruits and vegetables and their associated forecast percent changes. These categories were selected because they represent commonly purchased household foods and differ in supply dynamics, making them appropriate for comparing forecasted price volatility and stability.
 
-3)  Finally, we will create a scatterplot to plot the mean forecast percent change for each of the CPI items.
+To address our research question, we examine how forecasted CPI behavior varies across these three categories using both summary statistics and visualizations. Because multiple forecasts exist for a given year, we use the mean forecasted percent change to represent a central tendency, allowing for consistent comparison across categories and time.
 
-To support our graphs, we will partner them with a data table to help us analyze and come to a conclusion based on what each visualization is telling us.
+For this project, we create three data visualizations and three tables to evaluate the USDA’s CPI predictions for each category:
+
+We create line graphs to illustrate how forecasted CPI percent changes fluctuate over time for each CPI item from 2004 to 2025, highlighting periods of increased volatility and spread across categories.
+
+We create box-and-whisker plots for each CPI item to evaluate the five descriptive statistics (minimum, Q1, median, Q3, and maximum), which allows us to compare distributional spread and identify which food categories exhibit greater forecast variability.
+
+Finally, we created a scatterplot of the mean forecasted percent change for each CPI item, directly linking the EDA to the research question by comparing long-term average inflation expectations across food categories.
+
+To support our visual analyses, we pair each graph with a corresponding data table to provide quantitative context and strengthen interpretation. Together, these exploratory steps establish early evidence that forecasted CPI behavior differs meaningfully across food categories, setting the foundation for the results and conclusions that follow.
 
 # Visual Analysis:
 
@@ -106,7 +120,8 @@ cpi_tidy <- CPIHistoricalForecast %>%  # Tidying the datset to show Consumer Pri
 kable(cpi_tidy[1:50,],caption = "Year vs Forecast Percent Change for Each CPI Item") # Viewing tidied dataset
 ```
 
-##### Figure 1 Analysis: Figure 1 shows a data table of Year vs Forecast Percent Change for Each CPI Item. The plot includes attributes such as the consumer price index item which includes foods such as meats, dairy products, and fruits and vegetables, year of forecast, year being forecast, and forecast precent change, which shows how much the predicted value is expected to increase or decrease compared to the starting point.
+##### Figure 1 Analysis: 
+Figure 1 shows a data table of Year vs Forecast Percent Change for Each CPI Item. The plot includes attributes such as the consumer price index item which includes foods such as meats, dairy products, and fruits and vegetables, year of forecast, year being forecast, and forecast precent change, which shows how much the predicted value is expected to increase or decrease compared to the starting point.
 
 ### Figure 2:
 
@@ -205,7 +220,8 @@ ggplot(
 
 ```
 
-##### Figure 2 Analysis: Figure 2 shows the forecasted CPI precent changes for meats, fruits and vegetables and dairy produts. As you can see, there's big spikes for meats around 2004 and 2019, and a spike increase for fruits,vegetables, and dairy prodcuts in 2022. This shows how the forecasted precent change affected the price of these products over time.
+##### Figure 2 Analysis: 
+Figure 2 shows the forecasted CPI percent changes for meats, fruits and vegetables and dairy produts. As you can see, there's big spikes for meats around 2004 and 2019, and a spike increase for fruits,vegetables, and dairy prodcuts in 2022. This shows how the forecasted precent change affected the price of these products over time. The last graph shows that forecasted CPI percent changes vary substantially across food categories and over time. Meats display the greatest volatility, with several sharp spikes and wider fluctuations compared to dairy products and fruits and vegetables. In contrast, fruits and vegetables exhibit more stable and tightly clustered forecasts, while dairy products generally fall between the two, reflecting moderate variability.
 
 ### Figure 3:
 
@@ -225,7 +241,8 @@ kable(cpi_summary[1:20,],
 
 ```
 
-##### Figure 3 Analysis: Figure 3 shows the Mean and Standard Deviation of CPI Forecasted Percent Change by Food Category and Year. This data table includes attributes such as consumer price index item which includes products such as meats, fruits and vegetables, and dairy products, year being forecast, mean forecast precentage change, and the standard deviation forecast precentage change. Both the mean and standard deviations shows the fluctuation in forecast precentage change which can affect the price of the products mentioned.
+##### Figure 3 Analysis: 
+Althought the table does not display all 3 categories (would be a very long table if it did), Figure 3 shows the Mean and Standard Deviation of CPI Forecasted Percent Change by Food Category and Year. This data table includes attributes such as consumer price index item which includes products such as meats, fruits and vegetables, and dairy products, year being forecast, mean forecast precentage change, and the standard deviation forecast precentage change. Both the mean and standard deviations shows the fluctuation in forecast precentage change which can affect the price of the products mentioned.
 
 ### Figure 4:
 
@@ -247,7 +264,8 @@ kable(
 )
 ```
 
-#### Figure 4 Analysis:
+#### Figure 4 Analysis: 
+From this table, we observe the minimum and maximum forecasted percent changes for each of the three categories. Meats exhibit the largest positive maximum forecasted percent change, while fruits and vegetables show the smallest maximum change. In contrast, dairy products have the largest minimum forecasted percent change, whereas fruits and vegetables again have the smallest minimum value. This shows that fruits and vegetables had the smallest variability in forecasted percent change among the 3 groups  
 
 ### Figure 5:
 
@@ -260,13 +278,14 @@ ggplot(cpi_tidy, aes(x = consumer_price_index_item,
      geom_boxplot()
 ```
 
-#### Figure 5 Analysis:
+#### Figure 5 Analysis: 
+Figure 5 compares the distribution of forecasted percent changes across dairy products, fruits and vegetables, and meats. Meats show the highest median forecast percent change and the greatest variability, with several large positive outliers, indicating more volatile and potentially higher price growth expectations. Fruits and vegetables have a relatively higher median than dairy but a narrower spread, suggesting more moderate and stable forecasts. Dairy products display the lowest median forecasted change and include several negative outliers, reflecting weaker or more uncertain price growth compared to the other categories.
 
 ### Figure 6:
 
 ```{r}
 #| echo: false
-#| fig-alt: "This scatterplot shows the mean forecast percent change for each of the 3 caegories from the year 2004-2005. The explanatory variable is Year Being Forecast and the response variable is Mean Forecast Percent Change."
+#| fig-alt: "This scatterplot shows the mean forecast percent change for each of the 3 caegories from the year 2004-2025. The explanatory variable is Year Being Forecast and the response variable is Mean Forecast Percent Change."
 cpi_mean <- cpi_tidy %>%
   group_by(consumer_price_index_item, year_being_forecast) %>%
   summarise(
@@ -288,14 +307,24 @@ ggplot(cpi_mean,
   theme_minimal()
 ```
 
-#### Figure 6 Analysis:
+#### Figure 6 Analysis: 
+Figure 6 illustrates the mean forecasted CPI percent change over time for dairy products, fruits and vegetables, and meats. The mean forecasts for meats are generally higher and more volatile across years, with several periods showing higher average percent changes relative to the other categories. Fruits and vegetables showcase lower and more stable mean forecasted changes, typically clustered around small positive growth. Dairy products fall between the two, with mean forecasts that fluctuate over time and occasionally approach zero or become negative, indicating greater uncertainty than fruits and vegetables but less volatility than meats.
 
 # Conclusion:
 
-Overall, our analysis shows that food prices have steadily increased over the past 20 years, with inflation affecting household food items in different ways across categories. Using USDA CPI forecast data allowed us to identify consistent long-term trends and better understand how economic forces shape food price changes over time. Because this data comes from a reliable federal source, it provides a strong foundation for interpreting past patterns and anticipating future movement in food prices.
+This study looked to answer the research question: how have USDA forecasted CPI percent changes for meats, dairy products, and fruits and vegetables differed over time, and what do these forecasts reveal about relative price stability and volatility across food categories? Overall, our analysis demonstrates that while food prices have generally trended upward from 2004 to 2025, the magnitude and consistency of forecasted inflation varies meaningfully by category.
 
-Based on these trends, we predict that CPI for products such as meats, dairy products, and fruits and vegetables in 2026 will continue to rise, but at a slower and more stable pace than in recent high-inflation years. While food prices are expected to remain elevated, the data suggests inflation will gradually moderate rather than sharply increase.
+Using USDA CPI forecast data and focusing on the mean forecasted percent change as a central measure, we found that meats consistently exhibit higher average forecasted CPI increases and greater variability, indicating stronger inflationary pressure and less price stability over time. In contrast, fruits and vegetables show lower and more stable mean forecasted percent changes, suggesting comparatively predictable price behavior. Dairy products fall between these two extremes, with moderate mean forecasts and occasional periods of negative or near-zero growth, reflecting intermittent volatility rather than sustained inflation.
 
+These findings highlight that not all food categories respond equally to broader economic conditions, and that CPI forecasts can provide valuable insight into which household food items are more susceptible to sharp price changes. Because this analysis relies on forecasts from a reputable federal source, the results offer a credible framework for interpreting historical trends and comparing inflation risk across food categories.
+
+One limitation of this study is the absence of observed CPI outcomes for years that have already occurred. If an additional dataset containing actual realized CPI values for meats, dairy products, and fruits and vegetables were available, it would allow for a direct comparison between predicted and actual CPI changes. Combining forecasted CPI data with observed CPI data would enable an evaluation of forecast accuracy, bias, and error over time, providing deeper insight into how well USDA predictions align with real-world price movements.
+
+Based on the observed patterns, we anticipate that CPI for meats, dairy products, and fruits and vegetables will continue to increase beyond 2025, but at a slower and more stable pace than during recent high-inflation periods. Although food prices are expected to remain on the higher end, the data suggests that inflation will cool down over time rather than increase or decrease sharply. 
+
+# Author Contribution:
+
+The authors of this report are Eli Idiculla, Ethan Agaon, and Emily Shehan. 
 
 # Code Appendix
 
@@ -347,7 +376,7 @@ CPIHistoricalForecast <- read.csv("CPIHistoricalForecast.csv")
 #| fig.show: hide
 #| message: false
 #| warning: false
-#| 
+#| fig-alt: "This table is the tided version of our dataset where one case represents one prediction per food category (Meats, Dairy, Fruits and Vegetables) from 2004-2025."
 # ------------------------------------------------------------
 # Code Header
 # Primary Author: Eli Idiculla
@@ -383,6 +412,7 @@ kable(cpi_tidy[1:50,],caption = "Year vs Forecast Percent Change for Each CPI It
 #| fig.show: hide
 #| message: false
 #| warning: false
+#| fig-alt: "These line graphs show the forecast percent change for the 3 categories in respect to the year being forecasted from 2004-2025. The explanatory variable is Year Being Forecast and the response variable is Forecast Percent Change."
 
 # ------------------------------------------------------------
 # Code Header
@@ -483,6 +513,7 @@ ggplot(
 #| fig.show: hide
 #| message: false
 #| warning: false
+#| fig-alt: "This table shows the 3 categories, the year being forecasted, the mean, and the standard deviation for each category from 2004-2025."
 
 # ------------------------------------------------------------
 # Code Header
@@ -498,7 +529,7 @@ cpi_summary <- cpi_tidy %>%
     .groups = "drop"
   )
 
-kable(cpi_summary,
+kable(cpi_summary[1:20,],
       caption = "Mean and Standard Deviation of CPI Forecasted Percent Change by Food Category and Year")
 
 ```
@@ -509,11 +540,12 @@ kable(cpi_summary,
 #| fig.show: hide
 #| message: false
 #| warning: false
+#| fig-alt: "This table shows the minimum and maximum forecast percent change for each of the 3 categories."
 
 # ------------------------------------------------------------
 # Code Header
-# Primary Author: Eli Idiculla
-# Reviewer: Emily Shehan
+# Primary Author: Emily Shehan
+# Reviewer: Eli Idiculla
 # ------------------------------------------------------------
 
 cpi_range_table <- cpi_tidy %>%
@@ -537,6 +569,7 @@ kable(
 #| fig.show: hide
 #| message: false
 #| warning: false
+#| fig-alt: "This box and whisker plot shows the 5 number summary for the forecast percent change for each 3 categories."
 
 # ------------------------------------------------------------
 # Code Header
@@ -556,10 +589,11 @@ ggplot(cpi_tidy, aes(x = consumer_price_index_item,
 #| fig.show: hide
 #| message: false
 #| warning: false
+#| fig-alt: "This scatterplot shows the mean forecast percent change for each of the 3 caegories from the year 2004-2025. The explanatory variable is Year Being Forecast and the response variable is Mean Forecast Percent Change."
 
 # ------------------------------------------------------------
 # Code Header
-# Primary Author: Ethan Agaon
+# Primary Author: Emily Shehan
 # Reviewer: Eli Idiculla
 # ------------------------------------------------------------
 
